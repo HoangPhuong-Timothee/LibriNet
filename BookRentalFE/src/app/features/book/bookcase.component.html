@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="row" *ngIf="genres.length > 0 && publishers.length > 0">
+        <section class="col-2">
+
+            <h5 class="text-warning mt-5">Sắp xếp</h5>
+            <select class="form-select mb-4" (change)="onSortSelected($event)">
+                <option
+                  *ngFor="let sort of sortOptions"
+                  [selected]="bookParams.sort === sort.value"
+                  [value]="sort.value"
+                >
+                    {{ sort.name }}
+                </option>
+            </select>
+
+            <h5 class="text-warning mt-5">Thể loại</h5>
+            <select class="form-select mb-4" (change)="onGenreSelected($event)">
+              <option
+                *ngFor="let genre of genres"
+                [selected]="bookParams.genreId === genre.id"
+                [value]="genre.id"
+              >
+                {{ genre.name }}
+              </option>
+            </select>
+
+            <h5 class="text-warning mt-5">Nhà xuất bản</h5>
+            <select class="form-select mb-4" (change)="onPublisherSelected($event)">
+              <option
+                *ngFor="let publisher of publishers"
+                [selected]="bookParams.publisherId === publisher.id"
+                [value]="publisher.id"
+              >
+                {{ publisher.name }}
+              </option>
+            </select>
+
+        </section>
+        <section class="col-10">
+            <div class="row">
+                <div class="d-flex justify-content-between align-items-center pb-2">
+
+                    <app-paging-header
+                        [totalCount]="totalBooks"
+                        [pageIndex]="bookParams.pageIndex"
+                        [pageSize]="bookParams.pageSize"
+                    >
+                    </app-paging-header>
+
+                    <div class="mt-2 d-flex">
+                        <input
+                          (keyup.enter)="onSearch()"
+                          [(ngModel)]="searchTerm"
+                          type="text"
+                          class="form-control me-2"
+                          placeholder="Nhập từ khóa..."
+                          style="width: 300px;"
+                        >
+                        <button (click)="onSearch()" class="btn btn-secondary mx-2">Tìm kiếm</button>
+                        <button (click)="onReset()" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 row row-cols-1 row-cols-sm-2 row-cols-md-5 g-2 mb-4">
+                <div class="col" *ngFor="let book of books">
+
+                    <app-book-item [book]="book"></app-book-item>
+
+                </div>
+            </div>
+            <div class="d-flex justify-content-center" *ngIf="totalBooks > 0">
+
+                <app-paging-footer
+                    [totalCount]="totalBooks"
+                    [pageSize]="bookParams.pageSize"
+                    [pageIndex]="bookParams.pageIndex"
+                    (pageChanged)="onPageChanged($event)"
+                >
+                </app-paging-footer>
+
+            </div>
+        </section>
+    </div>
+</div>

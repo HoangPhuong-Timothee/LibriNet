@@ -1,0 +1,103 @@
+.filters {
+  flex: 1;
+  max-width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filters label,
+.filters input,
+.filters select {
+  width: 100%;
+}
+
+.filters .d-flex {
+  display: flex;
+  gap: 10px;
+}
+
+.timeline-container {
+  flex: 3;
+  position: relative;
+  padding: 20px;
+}
+
+.timeline-viewport {
+  height: 600px;
+  overflow: auto;
+}
+
+.timeline {
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background: #333;
+}
+
+.timeline-container.empty .timeline::before {
+  display: none;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+  width: 48%;
+}
+
+.left {
+  left: 0;
+  text-align: right;
+  padding-right: 10px;
+  border-right: 3px solid red;
+}
+
+.right {
+  left: 52%;
+  text-align: left;
+  padding-left: 10px;
+  border-left: 3px solid green;
+}
+
+.card {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.card-header,
+.card-body,
+.card-footer {
+  margin-bottom: 10px;
+}
+
+.card-body,
+.card-footer {
+  display: none;
+}
+
+.show-details .card-body,
+.show-details .card-footer {
+  display: block;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.fst-italic {
+  font-style: italic;
+}
+
+.fw-bold {
+  font-weight: bold;
+}

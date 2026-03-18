@@ -1,0 +1,17 @@
+<h2 class="text-center text-uppercase fw-bold pt-3" mat-dialog-title>{{ data.title }}</h2>
+<mat-divider class="my-1"></mat-divider>
+<mat-dialog-content>
+  <form [formGroup]="addGenreForm" class="p-4 w-100" (ngSubmit)="addNewGenre()">
+    <app-input-text
+      [formControl]="addGenreForm.controls['name']"
+      [label]="'Tên thể loại'"
+    >
+    </app-input-text>
+    <div class="d-flex justify-content-end gap-1 mt-2">
+      <button mat-button color="warn" type="button" mat-dialog-close>Hủy</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="addGenreForm.invalid">
+        Thêm
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

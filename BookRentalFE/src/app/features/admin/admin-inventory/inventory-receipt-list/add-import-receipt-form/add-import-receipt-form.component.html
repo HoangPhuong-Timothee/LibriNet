@@ -1,0 +1,144 @@
+<div class="container mt-5 dialog-container">
+  <h2 class="text-uppercase text-center fw-bold mt-5 pt-2">{{ data.title }}</h2>
+  <div class="pt-2">
+    <form [formGroup]="addImportReceiptForm" (ngSubmit)="submitForm()">
+      <div class="row">
+        <div class="col-12 form-group my-2">
+          <label for="importNotes">Ghi chú/ Lý do tạo phiếu: </label>
+          <input
+            type="text"
+            id="importNotes"
+            formControlName="importNotes"
+            class="form-control"
+            [ngClass]="addImportReceiptForm.get('importNotes')?.touched ? addImportReceiptForm.get('importNotes')?.invalid ? 'is-invalid' : 'is-valid' : null"
+          >
+          <div class="text-danger mt-1" *ngIf="addImportReceiptForm.get('importNotes')?.touched">
+            <span *ngIf="addImportReceiptForm.get('importNotes')?.errors?.['maxLength']">
+              * Nội dung không vượt quá 255 ký tự
+            </span>
+            <span *ngIf="addImportReceiptForm.get('importNotes')?.errors?.['required']">
+              * Vui lòng ghi chú/ghi chú cho việc tạo phiếu
+            </span>
+          </div>
+        </div>
+      </div>
+      <mat-divider class="my-1"></mat-divider>
+      <div class="row my-3">
+        <div class="col-6 text-start">
+          <h2>Thông tin sách nhập kho: </h2>
+        </div>
+        <div class="col-6 text-end">
+          <button class="btn btn-sm btn-outline-secondary" (click)="addItem()">Thêm dòng</button>
+        </div>
+      </div>
+      <div class="table-container">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="text-uppercase bg-warning text-dark">
+              <th scope="col" *ngFor="let colHeader of headerColumns">{{ colHeader }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container formArrayName="items" *ngFor="let item of items.controls; let i = index">
+              <tr [formGroupName]="i">
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="bookTitle"
+                    [ngClass]="item.get('bookTitle')?.touched ? item.get('bookTitle')?.invalid ? 'is-invalid' : 'is-valid' : null"
+                  >
+                  <div class="text-danger mt-1" *ngIf="item.get('bookTitle')?.touched">
+                    <span *ngIf="item.get('bookTitle')?.errors?.['required']">
+                      * Vui lòng nhập Tiêu đề sách
+                    </span>
+                    <span *ngIf="item.get('bookTitle')?.errors?.['bookExists']">
+                      * Sách không tồn tại
+                    </span>
+                  </div>
+                  <div *ngIf="item.get('bookTitle')?.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="isbn"
+                    [ngClass]="item.get('isbn')?.touched ? item.get('isbn')?.invalid ? 'is-invalid' : 'is-valid' : null"
+                  >
+                  <div class="text-danger mt-1" *ngIf="item.get('isbn')?.touched">
+                    <span *ngIf="item.get('isbn')?.errors?.['required']">
+                      * Vui lòng nhập ISBN của sách
+                    </span>
+                    <span *ngIf="item.get('isbn')?.errors?.['isbnMatch']">
+                      * ISBN không trùng khớp
+                    </span>
+                  </div>
+                  <div *ngIf="item.get('isbn')?.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
+                </td>
+                <td>
+                  <select
+                    formControlName="bookStoreId"
+                    class="form-control"
+                    [ngClass]="item.get('bookStoreId')?.touched ? item.get('bookStoreId')?.invalid ? 'is-invalid' : 'is-valid' : null"
+                  >
+                    <option value=""><span class="text-danger">* Hiệu sách</span></option>
+                    <option *ngFor="let bookStore of bookStoresList" [value]="+bookStore.id">{{ bookStore.storeName }}</option>
+                  </select>
+                  <div class="text-danger mt-1" *ngIf="item.get('bookStoreId')?.touched && item.get('bookStoreId')?.errors?.['required']">
+                    * Vui lòng chọn Hiệu sách cần nhập kho
+                  </div>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="quantity"
+                    [ngClass]="item.get('quantity')?.touched ? item.get('quantity')?.invalid ? 'is-invalid' : 'is-valid' : null"
+                  >
+                  <div class="text-danger mt-1" *ngIf="item.get('quantity')?.touched">
+                    <span *ngIf="item.get('quantity')?.errors?.['required']">
+                      * Vui lòng nhập Số lượng
+                    </span>
+                    <span *ngIf="item.get('quantity')?.errors?.['min']">
+                      * Số lượng phải lớn hơn hoặc bằng 0
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <select
+                    formControlName="unitOfMeasureId"
+                    class="form-control"
+                    [ngClass]="item.get('unitOfMeasureId')?.touched ? item.get('unitOfMeasureId')?.invalid ? 'is-invalid' : 'is-valid' : null"
+                  >
+                    <option value=""><span class="text-danger">* Đơn vị</span></option>
+                    <option *ngFor="let unit of measureUnitsList" [value]="unit.id">{{ unit.name }}</option>
+                  </select>
+                  <div class="text-danger mt-1" *ngIf="item.get('unitOfMeasureId')?.touched && item.get('unitOfMeasureId')?.errors?.['required']">
+                    * Vui lòng chọn ĐVT
+                  </div>
+                </td>
+                <td>
+                  <button [disabled]="items.length === 1" class="btn btn-danger" (click)="removeFormGroup(i)">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container>
+              <tr>
+                <td colspan="7">
+                  <div class="row">
+                    <div class="col-12 text-end">
+                      <button class="me-1 btn btn-outline-danger py-1 px-3" mat-dialog-close="">Hủy</button>
+                      <button class="btn btn-primary py-1 px-3" [disabled]="addImportReceiptForm.invalid" type="submit">Tạo</button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+</div>

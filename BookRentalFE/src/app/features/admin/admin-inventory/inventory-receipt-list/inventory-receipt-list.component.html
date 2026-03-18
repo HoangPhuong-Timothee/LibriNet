@@ -1,0 +1,66 @@
+<div class="mt-3">
+  <h1 class="tw-fs-2 text-center tw-fw-semibold tw-mt-4 text-uppercase">
+    Quản lý phiếu nhập - xuất kho
+  </h1>
+  <div class="d-flex justify-content-around mt-3">
+    <button class="match-input-height me-1" mat-stroked-button (click)="openFilterDialog()">
+      <mat-icon>filter_list</mat-icon>
+      Lọc dữ liệu
+    </button>
+    <div class="d-flex gap-1">
+      <label>Tìm mã phiếu: </label>
+      <input
+      (keyup.enter)="onSearch()"
+      [(ngModel)]="searchTerm"
+      type="text"
+      class="tw-form-control me-2 py-1"
+      placeholder="Mã phiếu..."
+      style="width: 300px;"
+      >
+    </div>
+    <div class="d-flex gap-2">
+      <button mat-raised-button color="accent" [matMenuTriggerFor]="menu1">
+        <mat-icon>upload_file</mat-icon>
+        Tải lên file phiếu xuất - nhập kho
+      </button>
+      <mat-menu #menu1="matMenu">
+        <button mat-menu-item (click)="openAddImportReceiptFileDialog()">
+          <i class="fa-solid fa-file-import"></i>
+          Phiếu nhập kho
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="openAddExportReceiptFileDialog()">
+          <i class="fa-solid fa-file-export"></i>
+          Phiếu xuất kho
+        </button>
+      </mat-menu>
+      <button mat-raised-button color="primary" [matMenuTriggerFor]="menu2">
+        <mat-icon>add</mat-icon>
+        Tạo phiếu xuất - nhập kho
+      </button>
+      <mat-menu #menu2="matMenu">
+        <button mat-menu-item (click)="openAddImportReceiptFormDialog()">
+          <i class="fa-solid fa-file-import"></i>
+          Phiếu nhập kho
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="openAddExportReceiptFormDialog()">
+          <i class="fa-solid fa-file-export"></i>
+          Phiếu xuất kho
+        </button>
+      </mat-menu>
+    </div>
+    <button mat-stroked-button color="warn" (click)="onReset()">
+      <i class="fa-solid fa-rotate-left"></i>
+    </button>
+  </div>
+</div>
+<app-custom-table
+    [columns]="columns"
+    [actions]="actions"
+    [dataSource]="receiptList"
+    [totalItems]="totalReceipts"
+    [pageSize]="receiptParams.pageSize"
+    (pageChange)="onPageChange($event)"
+>
+</app-custom-table>

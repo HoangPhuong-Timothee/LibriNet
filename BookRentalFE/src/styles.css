@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add global styles to this file, and also import other style files */
+label.xng-breadcrumb-trail {
+    font-weight: bold;
+    color: orange;
+}
+
+.vertical-tab-container {
+  display: flex;
+  height: calc(100vh - 110px); /* Chiều cao của container trừ đi phần margin-top */
+}
+
+.vertical-tabs {
+  display: flex;
+  flex-direction: column;
+  width: 200px; /* Chiều rộng cố định cho các tab */
+  border-right: 1px solid #ccc;
+}
+
+.vertical-tabs .mat-tab-label-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Chiều cao 100% để chiếm toàn bộ container */
+}
+
+.vertical-tabs .mat-tab-labels {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Chiều cao 100% để chiếm toàn bộ container */
+}
+
+.vertical-tabs .mat-tab-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1; /* Chiếm không gian đều nhau */
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid #ccc; /* Thêm đường viền dưới để tách các tab */
+  transition: background-color 0.3s; /* Thêm hiệu ứng chuyển đổi màu nền */
+}
+
+.vertical-tabs .mat-tab-label:last-child {
+  border-bottom: none; /* Loại bỏ đường viền dưới của tab cuối cùng */
+}
+
+.vertical-tabs .mat-tab-label.mat-tab-label-active {
+  background-color: #f0f0f0; /* Màu nền khi tab được nhấn */
+}
+
+.tab-content {
+  flex-grow: 1;
+  padding: 16px;
+}
+
+.custom-dialog-container .mat-dialog-container {
+  margin-top: 50px;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

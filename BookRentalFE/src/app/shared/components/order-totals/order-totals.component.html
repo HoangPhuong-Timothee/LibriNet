@@ -1,0 +1,49 @@
+  <div [ngClass]="{'col-12': router.url === '/checkout', 'col-6': router.url === '/basket'}">
+    <div class="bg-warning px-4 py-3 text-uppercase text-center fw-bold">
+      Ước tính giỏ sách
+    </div>
+    <div class="py-4">
+      <p class="fw-bold text-danger">*Phí giao sách sẽ tính dựa theo dịch vụ</p>
+      <p class="fst-italic text-muted mb-4">
+        Tổng thanh toán sẽ được tính dựa trên lựa chọn ở mục thanh toán
+      </p>
+      <ul class="list-unstyled mb-4" *ngIf="basketService.basketTotal$ | async as basketTotals">
+        <li class="d-flex justify-content-between py-3 border-bottom">
+          <strong class="text-muted">Tổng tiền tạm tính</strong>
+          <strong>{{ basketTotals.subtotal | customCurrency : "VND" }}</strong>
+        </li>
+        <li class="d-flex justify-content-between py-3 border-bottom">
+          <strong class="text-muted">Phí dịch vụ</strong>
+          <p>Sẽ tính phí dựa vào dịch vụ mà bạn chọn</p>
+          <strong>+ {{ basketTotals.delivery | customCurrency : "VND" }}</strong>
+        </li>
+        <!-- <li class="d-flex justify-content-between align-items-center py-3 border-bottom">
+          <strong class="text-muted">Giảm giá</strong>
+          <br>
+          <strong>- {{ basketTotals.discount | customCurrency : "VND" }}</strong>
+          <div class="tw-rounded-lg tw-border tw-border-gray-200 tw-bg-white tw-shadow-sm">
+            <form class="tw-flex tw-p1">
+              <mat-form-field appearance="outline">
+                <mat-label>Mã ưu đãi</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+              <button class="btn btn-success py-2 px-4 mx-2">Áp dụng</button>
+            </form>
+          </div>
+        </li> -->
+        <li class="d-flex justify-content-between py-3 border-bottom">
+          <strong class="text-muted">Thành tiền</strong>
+          <strong>{{ basketTotals.total | customCurrency : "VND" }}</strong>
+        </li>
+      </ul>
+      <div class="d-grid" *ngIf="router.url !== '/checkout'">
+        <button routerLink="/checkout" class="btn btn-primary py-2 fw-bold">
+          Tiến hành thanh toán
+        </button>
+        <button class="fw-bold" routerLink="/bookcase" mat-button>
+          Xem thêm sách
+        </button>
+      </div>
+    </div>
+  </div>
+

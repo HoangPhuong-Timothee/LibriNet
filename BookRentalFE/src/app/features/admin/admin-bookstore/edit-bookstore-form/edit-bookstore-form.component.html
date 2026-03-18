@@ -1,0 +1,20 @@
+<h2 class="text-center text-uppercase fw-bold" mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content class="p-3">
+  <form [formGroup]="updateBookStoreForm" class="p-4 w-100" (ngSubmit)="updateBookStore()">
+    <span class="mb-2">Mã hiệu sách: {{ data.bookStore.id }}</span>
+    <app-input-text
+      [formControl]="updateBookStoreForm.controls['storeName']"
+      [label]="'Tên hiệu sách'">
+    </app-input-text>
+    <app-input-text
+      [formControl]="updateBookStoreForm.controls['storeAddress']"
+      [label]="'Địa chỉ'">
+    </app-input-text>
+    <div class="tw-flex tw-justify-end tw-gap-3">
+      <button mat-button color="warn" type="button" mat-dialog-close>Hủy</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="updateBookStoreForm.invalid">
+        Cập nhật
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

@@ -1,0 +1,7 @@
+<app-file-input
+  [columns]="columns"
+  [title]="data.title"
+  [serviceMethod]="importMeasureUnitsFromFile.bind(this)"
+  (importSuccess)="handleSubmitSuccess($event)"
+>
+</app-file-input>

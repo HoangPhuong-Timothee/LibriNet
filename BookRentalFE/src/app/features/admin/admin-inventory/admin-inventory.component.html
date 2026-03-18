@@ -1,0 +1,25 @@
+<mat-tab-group
+  [(selectedIndex)]="innerSelectedTabIndex"
+  (selectedTabChange)="onInnerTabChange($event)"
+>
+  <mat-tab label="Danh sách tồn kho">
+    <ng-container *ngIf="innerSelectedTabIndex === 0">
+      <app-inventory-list></app-inventory-list>
+    </ng-container>
+  </mat-tab>
+  <mat-tab label="Danh sách phiếu nhập - xuất kho">
+    <ng-container *ngIf="innerSelectedTabIndex === 1">
+      <app-inventory-receipt-list></app-inventory-receipt-list>
+    </ng-container>
+  </mat-tab>
+  <mat-tab label="Danh sách phiếu kiểm kê hàng hóa">
+    <ng-container *ngIf="innerSelectedTabIndex === 2">
+      <app-inventory-audit></app-inventory-audit>
+    </ng-container>
+  </mat-tab>
+  <mat-tab label="Đơn vị nhập, xuất kho">
+    <ng-container *ngIf="innerSelectedTabIndex === 3">
+      <app-unit-of-measure-list></app-unit-of-measure-list>
+    </ng-container>
+  </mat-tab>
+</mat-tab-group>

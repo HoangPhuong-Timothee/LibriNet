@@ -1,0 +1,23 @@
+<div class="form-floating mb-3">
+  <input
+    [type]="type"
+    [formControl]="control"
+    placeholder={{label}}
+    class="form-control"
+    [ngClass]="(control.touched) ? control.invalid ? 'is-invalid' : 'is-valid' : null"
+  >
+  <div *ngIf="control.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
+  <label for="floatingInput">{{label}}</label>
+  <div *ngIf="control.errors?.['required']" class="invalid-feedback">* Vui lòng điền {{label}}</div>
+  <div *ngIf="control.errors?.['email']" class="invalid-feedback">* Email không hợp lệ</div>
+  <div *ngIf="control.errors?.['pattern']" class="invalid-feedback">* Mật khẩu phải có ít nhất chữ thường, chữ hoa, số và ký tự đặc biệt</div>
+  <div *ngIf="control.errors?.['emailExists']" class="invalid-feedback">* Email đã được sử dụng</div>
+  <div *ngIf="control.errors?.['bookStoreExists']" class="invalid-feedback">* Hiệu sách đã tồn tại</div>
+  <div *ngIf="control.errors?.['genreExists']" class="invalid-feedback">* Thể loại đã tồn tại</div>
+  <div *ngIf="control.errors?.['authorExists']" class="invalid-feedback">* Tác giả đã tồn tại</div>
+  <div *ngIf="control.errors?.['publisherExists']" class="invalid-feedback">* NXB đã tồn tại</div>
+  <div *ngIf="control.errors?.['uomExists']" class="invalid-feedback">* Đơn vị đo đã tồn tại</div>
+  <div *ngIf="control.errors?.['isMatching']" class="invalid-feedback">* Mật khẩu không trùng khớp</div>
+  <div *ngIf="control.errors?.['minlength']" class="invalid-feedback">* {{label}} phải lớn hơn hoặc bằng 0</div>
+  <div *ngIf="control.errors?.['maxlength']" class="invalid-feedback">* {{label}} không được vượt quá {{control.errors?.['maxlength']?.requiredLength || null}} ký tự</div>
+</div>

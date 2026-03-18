@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="header-text mb-4">
+        <div class="text-content">
+            <h3 class="text-warning">Khám phá kho sách khổng lồ</h3>
+            <h1><span class="text-warning">Sẵn sàng thưởng thức ?</span></h1>
+        <p class="text-white fst-italic">Đọc được nhiều sách hơn và đọc tốt hơn với Libri</p>
+        <a routerLink="/bookcase">Xem tủ sách</a>
+        </div>
+    </div>
+    <ul class="slides list-unstyled">
+        <li><span></span></li>
+        <li><span></span></li>
+        <li><span></span></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-5">
+            <h2 class="display-6 fw-bolder text-center">
+                <i class="fa-solid fa-plus"></i>
+                Sách mới
+            </h2>
+            <hr />
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-2 mb-4">
+                <div class="col" *ngFor="let book of latestBooks">
+
+                    <app-book-item [book]="book"></app-book-item>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

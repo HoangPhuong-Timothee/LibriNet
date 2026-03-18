@@ -1,0 +1,107 @@
+<div class="container mt-5">
+  <h2 class="text-center text-uppercase mb-2 fw-bold">{{ data.title }}</h2>
+  <div class="border border-3 rounded mt-1 p-2 mb-2">
+    <div class="row">
+      <div class="col-6">
+        <strong class="text-muted">Email đặt hàng: </strong>
+        <strong>{{ data.orderWithDetails.userEmail }}</strong>
+      </div>
+      <div class="col-6">
+        <div class="justify-content-between">
+          <strong class="text-muted">Thông tin giao hàng: </strong>
+          <strong>{{ userInfo }}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-6">
+        <div class="justify-content-between">
+          <strong class="text-muted">Ngày tạo đơn: </strong>
+          <strong>{{ data.orderWithDetails.orderDate }}</strong>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="justify-content-between">
+          <strong class="text-muted">Thời gian giao hàng: </strong>
+          <strong>{{ data.orderWithDetails.deliveryTime }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="data.orderWithDetails">
+    <div class="col-8">
+      <div>
+        <div class="table-responsive" style="max-height: 350px; overflow: auto;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" class="border-0 bg-warning">
+                  <div class="p-2 text-uppercase">Sách</div>
+                </th>
+                <th scope="col" class="border-0 bg-warning">
+                  <div class="py-2 text-uppercase">Giá</div>
+                </th>
+                <th scope="col" class="border-0 bg-warning">
+                  <div class="py-2 text-uppercase">Số lượng</div>
+                </th>
+                <th scope="col" class="border-0 bg-warning">
+                  <div class="py-2 text-uppercase">Tạm tính</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data.orderWithDetails.orderItems">
+                <th scope="row">
+                  <div class="p-2">
+                    <img
+                      src="{{ item.bookImageUrl }}"
+                      alt="{{ item.bookTitle }}"
+                      class="i mg-fluid"
+                      style="max-height: 50px"
+                    />
+                    <div class="ml-3 d-inline-block align-middle">
+                      <h5 class="mb-0">
+                        {{ item.bookTitle | truncateTitle: 40 }}
+                      </h5>
+                    </div>
+                  </div>
+                </th>
+                <td class="align-middle">
+                  <strong>{{ item.price | customCurrency: 'VND' }}</strong>
+                </td>
+                <td class="align-middle">
+                  <strong class="font-weight-bold px-2">{{ item.quantity }}</strong>
+                </td>
+                <td class="align-middle">
+                  <strong>{{ item.price * item.quantity | customCurrency: 'VND' }}</strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="bg-warning px-4 py-3 text-uppercase text-center fw-bold">
+        Chi tiết thành tiền đơn hàng
+      </div>
+      <div class="p-4">
+        <ul class="list-unstyled mb-1">
+          <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Tổng tiền sách</strong>
+            <strong>{{ data.orderWithDetails.subtotal | customCurrency: 'VND' }}</strong>
+          </li>
+          <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Phí giao hàng</strong>
+            <strong>{{ data.orderWithDetails.deliveryPrice| customCurrency: 'VND' }}</strong>
+          </li>
+          <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Tổng tiền đơn hàng</strong>
+            <strong>{{ data.orderWithDetails.subtotal + data.orderWithDetails.deliveryPrice| customCurrency: 'VND' }}</strong>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <button class="mt-1" mat-button color="warn" mat-dialog-close>Thoát</button>
+</div>

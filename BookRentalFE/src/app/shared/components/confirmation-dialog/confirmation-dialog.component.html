@@ -1,0 +1,8 @@
+<div class="tw-p-4">
+    <h2 class="text-lg tw-font-semibold tw-mb-4">{{ data.title }}</h2>
+    <p class="tw-mb-4">{{ data.message }}</p>
+    <div class="tw-flex tw-justify-end tw-gap-2">
+        <button mat-stroked-button color="warn" class="me-2" (click)="onCancel()">Hủy</button>
+        <button mat-stroked-button (click)="onConfirm()">Xác nhận</button>
+    </div>
+</div>

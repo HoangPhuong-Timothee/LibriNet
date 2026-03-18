@@ -1,0 +1,46 @@
+<div class="container mb-2">
+  <ng-container *ngIf="(basketService.basket$ | async) === null" class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body cart">
+            <div class="col-sm-12 empty-cart-cls text-center">
+              <img
+                src="https://cdni.iconscout.com/illustration/premium/thumb/empty-basket-illustration-download-in-svg-png-gif-file-formats--cart-no-product-item-shopping-marketing-pack-e-commerce-illustrations-8609489.png"
+                width="260"
+                height="260"
+                class="img-fluid mb-4 mr-3"
+              />
+              <h3><strong>Bạn chưa có sách nào trong giỏ.</strong></h3>
+              <h4>Làm vài cuốn đọc cho vui :)</h4>
+              <a
+                routerLink="/bookcase"
+                class="btn btn-warning cart-btn-transform m-3 fw-bold"
+                data-abc="true"
+                >Xem tủ sách</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="(basketService.basket$ | async) as basket">
+    <div class="container">
+      <div class="row">
+
+        <app-basket-item
+          (addItem)="increaseQuantity($event)"
+          (removeItem)="removeItem($event)"
+        >
+        </app-basket-item>
+
+      </div>
+      <div class="container">
+
+        <app-order-totals></app-order-totals>
+
+      </div>
+    </div>
+  </ng-container>
+</div>

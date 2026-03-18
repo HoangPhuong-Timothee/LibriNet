@@ -1,0 +1,52 @@
+<form (submit)="applyFilters()">
+  <h3 class="text-3xl text-center pt-6 mb-3 mt-5">Lọc dữ liệu</h3>
+  <mat-divider></mat-divider>
+  <div class="d-flex p-4">
+    <div class="row" style="max-height: 500px;">
+      <div class="col-6 px-2">
+        <h4 class="font-semibold text-xl text-primary">Thể loại: </h4>
+        <mat-radio-group
+          [(ngModel)]="selectedGenreId"
+          [ngModelOptions]="{ standalone: true }"
+          class="radio-container"
+        >
+          <mat-radio-button
+            class="me-2 radio-button"
+            *ngFor="let genre of genresList"
+            [value]="genre.id"
+          >
+            {{genre.name}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="col-5">
+        <h4 class="font-semibold text-xl text-primary">Hiệu sách: </h4>
+        <mat-radio-group
+          [(ngModel)]="selectedBookStoreId"
+          [ngModelOptions]="{ standalone: true }"
+          class="radio-container">
+          <mat-radio-button
+            class="me-2 radio-button"
+            *ngFor="let store of bookStoresList"
+            [value]="store.id"
+          >
+            {{store.storeName}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <mat-divider class="my-1"></mat-divider>
+      <div class="col-12 mt-2">
+        <h4 class="font-semibold text-xl text-primary">Trạng thái kho: </h4>
+        <mat-form-field>
+          <mat-select [(value)]="selectedInventoryStatus">
+            <mat-option *ngFor="let statusOption of inventoryStatusOptions" [value]="statusOption.value">{{ statusOption.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="p-4 d-flex justify-content-center">
+    <button mat-button color="warn" mat-dialog-close="">Đóng</button>
+    <button mat-raised-button color="primary" class="ms-2" type="submit">Áp dụng bộ lọc</button>
+  </div>
+</form>

@@ -1,0 +1,29 @@
+<div class="mt-3">
+  <h1 class="tw-fs-2 tw-fw-semibold tw-mt-4 text-uppercase">
+    Danh sách người dùng
+  </h1>
+</div>
+<div class="d-flex justify-content-around mt-3">
+  <div>
+    <input
+    (keyup.enter)="onSearch()"
+    [(ngModel)]="searchTerm"
+    type="text"
+    class="tw-form-control me-2 py-1"
+    placeholder="Nhập từ khóa..."
+    style="width: 300px;"
+    >
+    <button mat-stroked-button color="warn" (click)="onReset()">
+      <i class="fa-solid fa-rotate-left"></i>
+    </button>
+  </div>
+</div>
+<app-custom-table
+  [columns]="columns"
+  [dataSource]="memberList"
+  [totalItems]="totalUsers"
+  [pageSize]="adminMemberParams.pageSize"
+  [pageSize]="adminMemberParams.pageSize"
+  (pageChange)="onPageChange($event)"
+>
+</app-custom-table>

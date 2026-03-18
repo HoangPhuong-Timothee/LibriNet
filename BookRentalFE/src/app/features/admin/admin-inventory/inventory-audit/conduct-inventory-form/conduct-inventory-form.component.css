@@ -1,0 +1,15 @@
+.dialog-container {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.table-container {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.disabled-arrow {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}

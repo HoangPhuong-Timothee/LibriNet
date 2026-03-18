@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="addPublisherForm" class="p-4 w-100" (ngSubmit)="addNewPublisher()">
+    <app-input-text
+      [formControl]="addPublisherForm.controls['name']"
+      [label]="'Tên nhà xuất bản'"
+    >
+    </app-input-text>
+    <app-input-text
+      [formControl]="addPublisherForm.controls['address']"
+      [label]="'Địa chỉ'"
+    >
+    </app-input-text>
+    <div class="d-flex justify-content-end gap-1 mt-2">
+      <button mat-button color="warn" type="button" mat-dialog-close>Hủy</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="addPublisherForm.invalid">
+        Thêm
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

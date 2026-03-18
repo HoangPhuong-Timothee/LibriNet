@@ -1,0 +1,14 @@
+<div class="form-floating mb-3">
+  <textarea
+    [formControl]="control"
+    placeholder="{{label}}"
+    class="form-control"
+    [ngClass]="control.touched ? (control.invalid ? 'is-invalid' : 'is-valid') : null"
+    id="floatingTextArea"
+    style="height: 255px;"
+  ></textarea>
+  <label for="floatingTextArea">{{label}}</label>
+  <div *ngIf="control.errors?.['required']" class="invalid-feedback">* Vui lòng điền {{label}}</div>
+  <div *ngIf="control.errors?.['maxlength']" class="invalid-feedback">* Không được vượt quá {{control.errors?.['maxlength']?.requiredLength}} ký tự</div>
+  <div [ngClass]="characterCount > maxLength ? 'text-danger' : ''" class="character-count">{{characterCount}} / {{maxLength}} ký tự</div>
+</div>

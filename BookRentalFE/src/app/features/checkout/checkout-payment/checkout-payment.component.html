@@ -1,0 +1,27 @@
+<div class="mt-4" *ngIf="checkoutForm" [formGroup]="checkoutForm">
+  <h4>Chọn phương thức thanh toán</h4>
+  <div class="form-group">
+    <div class="form-check" formGroupName="paymentForm">
+      <input class="form-check-input" type="radio" id="cod" formControlName="paymentMethod" value="COD">
+      <label class="form-check-label" for="cod">
+        Thanh toán khi nhận hàng (COD)
+      </label>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-between flex-row mb-5 mt-3">
+    <button class="btn btn-secondary" cdkStepperPrevious>
+        Quay lại
+        <i class="fa fa-angle-left"></i>
+    </button>
+    <button
+      [disabled]="loading || !codPaymentFormComplete"
+      (click)="submitOrder()"
+      class="btn btn-warning"
+      cdkStepperNext
+    >
+        <i class="fa fa-angle-right"></i>
+        <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
+        Đặt hàng
+    </button>
+</div>

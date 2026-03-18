@@ -1,0 +1,73 @@
+<div class="row mb-5" *ngIf="book && similarBooks">
+    <div class="col-6">
+        <img src="{{ book.imageUrl }}" alt="{{ book.title }}" class="w-100">
+    </div>
+    <div class="col-6 mt-5">
+        <h2 style="font-weight: bold; text-align: left;">{{ book.title }}</h2>
+        <div class="d-flex gap-3 mt-4">
+          <span class="text-muted fst-italic" style="font-size: 2em">{{ book.price | customCurrency: 'VND' }}</span>
+          <div style="font-size: 1.8em;"> - Tình trạng:<span class="mt-2 ms-2 text-success fw-bold">{{ bookStatus }}</span></div>
+        </div>
+        <div *ngIf="book.quantityInStock > 0" class="my-5 d-flex justify-content-start gap-3 align-items-center">
+            <i (click)="decreaseQuantity()" class="fa fa-minus-circle text-danger me-2" style="cursor: pointer; font-size: 2em;"></i>
+            <span style="font-size: 1.5em; font-weight: bold;">{{ quantity }}</span>
+            <i (click)="increaseQuantity()" class="fa fa-plus-circle text-success ms-2" style="cursor: pointer; font-size: 2em;"></i>
+            <button (click)="updateBasket()" [disabled]="quantity===quantityInBasket" class="btn btn-info ms-4 px-5 py-3">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <span class="ms-2 text-white" style="font-weight: bold;">{{ buttonText }}</span>
+            </button>
+        </div>
+        <div class="me-2 my-2">
+          <h2 class="text-center text-uppercase">Thông tin sách: </h2>
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr class="text-center">
+                <th>Tác giả</th>
+                <th>Thể loại</th>
+                <th>Nhà xuất bản</th>
+                <th>Năm xuất bản</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center">
+                <td>{{ book.author }}</td>
+                <td>{{ book.genre }}</td>
+                <td>{{ book.publisher }}</td>
+                <td>{{ book.publishYear }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row mt-1 me-1">
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item">
+                  <h2 class="accordion-header" id="heading4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                        <strong class="text-uppercase">Mô tả</strong>
+                    </button>
+                  </h2>
+                  <div id="collapse4" class="accordion-collapse collapse show" aria-labelledby="heading4" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="font-style: italic">
+                      {{ book.description }}
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mb-5 mt-4">
+      <h2 class="display-6 fw-bolder text-center">
+          <i class="fa-solid fa-book-bookmark me-2"></i>Sách tương tự
+      </h2>
+      <hr />
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-2 mb-4 justify-content-evenly">
+          <div class="col" *ngFor="let similarBook of similarBooks">
+
+              <app-book-item [book]="similarBook"></app-book-item>
+
+          </div>
+      </div>
+  </div>
+</div>
+
+

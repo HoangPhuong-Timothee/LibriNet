@@ -1,0 +1,50 @@
+<div class="px-4 pt-3">
+  <div style="max-height: 500px; overflow-y: auto;">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th *ngFor="let column of columns" class="text-start bg-warning text-dark sticky-header text-uppercase">{{ column.header }}</th>
+          <th class="px-4 text-start bg-warning text-dark sticky-header text-uppercase" *ngIf="actions.length">
+            <i class="fa-solid fa-gear"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of dataSource" class="border-bottom">
+          <td *ngFor="let column of columns" class="py-2" [ngClass]="getColClass(column)" style="max-width: 340px;">
+            <div *ngIf="column.haveImage" class="d-flex align-items-center">
+              <img [src]="row[column.field[1]]" alt="book image" style="width: 70px; height: auto;">
+              <span class="ms-2">{{ row[column.field[0]] }}</span>
+            </div>
+            <span [ngClass]="getCellClass(row, column)">{{ getCellValue(row, column) }}</span>
+          </td>
+          <td class="py-2 px-4 bg-secondary text-white" *ngIf="actions.length">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <ng-container *ngFor="let action of actions">
+                <button mat-menu-item (click)="onAction(action.action, row)" [disabled]="action.disabled ? action.disabled(row) : false">
+                  <mat-icon>{{ action.icon }}</mat-icon>
+                  <span>{{ action.label }}</span>
+                  <mat-divider></mat-divider>
+                </button>
+              </ng-container>
+            </mat-menu>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator
+    *ngIf="!isErrorData"
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    showFirstLastButtons
+    [pageSizeOptions]="[15, 20, 25, 30]"
+    (page)="onPageChange($event)"
+    class="mt-2"
+  >
+  </mat-paginator>
+</div>

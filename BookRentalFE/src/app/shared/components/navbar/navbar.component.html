@@ -1,0 +1,57 @@
+<header class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top">
+    <img src="https://librireading.com/wp-content/uploads/2021/06/z2555569091868_782e5f0f9cbd0eba43cc09596a122e36.jpg" style="max-height: 70px;" alt="logo" class="logo" routerLink="/">
+    <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size: larger;">
+      <a routerLink="/" class="p-5" routerLinkActive="active" [routerLinkActiveOptions]="{ exact:true }">Trang chủ</a>
+      <a routerLink="/bookcase" class="p-4" routerLinkActive="active">Tủ sách</a>
+      <a *ngIf="authService.isAdmin$ | async" routerLink="/admin" class="p-4" routerLinkActive="active">Quản lý</a>
+      <a routerLink="/introduction" class="p-4" routerLinkActive="active">Giới thiệu</a>
+    </nav>
+    <div class="d-flex align-items-center">
+      <a routerLink="/basket" class="position-relative">
+        <i class="fa-solid fa-book fa-2x me-5 text-dark"></i>
+        <div *ngIf="(basketService.basket$ | async) as basket" class="cart-no">
+          {{ basketItemCount$ | async }}
+        </div>
+      </a>
+      <ng-container *ngIf="(authService.currentUser$ | async) === null">
+        <a routerLink="/login" class="btn btn-outline-warning me-2" style="color: black;">Đăng nhập</a>
+        <a routerLink="/register" class="btn btn-outline-dark me-3" style="color: orange;">Đăng ký</a>
+      </ng-container>
+      <ng-container *ngIf="authService.currentUser$ | async as user">
+        <div class="dropdown me-5" style="cursor: pointer; z-index: 11;" dropdown>
+          <a dropdownToggle class="dropdown-toggle">
+            <img class="avatar-img" src="{{ user.imageUrl }}" alt="{{ user.userName }}" />
+            <strong>Xin chào, {{ user.userName }}</strong>
+          </a>
+          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
+            <li class="py-1">
+              <a routerLink="/profile" class="dropdown-item">
+                <i class="fa-solid fa-user"></i>
+                Thông tin cá nhân
+              </a>
+            </li>
+            <li class="py-1">
+              <a routerLink="/basket" class="dropdown-item">
+                <i class="fa-solid fa-basket-shopping"></i>
+                Giỏ sách
+              </a>
+            </li>
+            <li class="py-1">
+              <a routerLink="/order" class="dropdown-item">
+                <i class="fa-solid fa-file-invoice"></i>
+                Đơn hàng
+              </a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="py-1">
+              <a class="dropdown-item" (click)="authService.logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Đăng xuất
+              </a>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+    </div>
+  </header>
+

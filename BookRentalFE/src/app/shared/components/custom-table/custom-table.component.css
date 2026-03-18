@@ -1,0 +1,12 @@
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+}
+
+.inventory-bookTitle-column {
+  max-width: 180px !important;
+}
+
+

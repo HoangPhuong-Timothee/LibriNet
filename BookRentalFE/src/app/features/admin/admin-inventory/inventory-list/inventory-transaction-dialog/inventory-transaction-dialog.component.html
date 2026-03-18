@@ -1,0 +1,107 @@
+<h2 class="text-uppercase text-center mt-3 fw-bold">{{ data.title }}</h2>
+<mat-divider class="my-1"></mat-divider>
+<div class="d-flex">
+
+  <div *ngIf="transactionTypes.length > 0 && measureUnitsList.length > 0" class="filters">
+    <label for="transactionType">Loại:</label>
+    <select
+      class="py-2"
+      id="transactionType"
+      [(ngModel)]="selectedTransactionType"
+    >
+      <option
+        *ngFor="let type of transactionTypes"
+        [value]="type.value"
+      >
+      {{ type.name }}
+    </option>
+    </select>
+    <label for="transactionMeasureUnit">Đơn vị:</label>
+    <select
+      [(ngModel)]="selectedMeasureUnitId"
+      class="py-2"
+      id="transactionMeasureUnit"
+    >
+      <option
+        *ngFor="let unit of measureUnitsList"
+        [value]="+unit.id"
+      >
+      {{ unit.name }}
+      </option>
+    </select>
+
+    <label for="startDate">Từ ngày:</label>
+    <input type="date" id="startDate" [(ngModel)]="startDate">
+
+    <label for="endDate">Đến ngày:</label>
+    <input type="date" id="endDate" [(ngModel)]="endDate">
+
+    <div class="d-flex mt-2">
+      <button mat-button color="warn" mat-dialog-close="">Đóng</button>
+      <button mat-raised-button color="primary" (click)="applyFilters()">Áp dụng</button>
+      <button mat-button color="warn" (click)="onReset()"><i class="fa-solid fa-rotate-left"></i></button>
+    </div>
+  </div>
+
+  <div
+    class="timeline-container ms-3"
+    [ngClass]="{'empty': transactions.length === 0}"
+  >
+    <div
+      *ngIf="transactions.length === 0"
+      class="text-center fst-italic text-danger"
+    >
+      Không có lịch sử nhập/xuất
+    </div>
+    <cdk-virtual-scroll-viewport itemSize="120" class="timeline-viewport" style="height: 600px;">
+      <div *ngIf="transactions.length > 0" class="timeline"></div>
+      <ng-container *cdkVirtualFor="let transaction of transactions">
+        <div
+          *ngIf="transaction.transactionType === 'Xuất kho'"
+          class="timeline-item left"
+          [ngClass]="{'show-details': transaction.showDetails}"
+          (click)="transaction.showDetails = !transaction.showDetails"
+        >
+          <div class="card">
+            <div class="card-header">
+              Mã phiếu: {{ transaction.transactionId }} -
+              <span *ngIf="!transaction.showDetails"><strong>{{ transaction.transactionType }}</strong> - </span>
+              {{ transaction.transactionDate }} bởi
+              <span class="fst-italic">{{ transaction.performedBy }}</span>
+            </div>
+            <div class="card-body" *ngIf="transaction.showDetails">
+              <h5 class="card-title">{{transaction.transactionType}} theo {{ transaction.measureUnit }} - Số lượng: {{ transaction.quantity }}</h5>
+              <p class="card-text"><strong>{{ transaction.storeName }}</strong> - {{ transaction.storeAddress }}</p>
+            </div>
+            <div class="card-footer text-danger fst-italic" *ngIf="transaction.showDetails">
+              {{ transaction.transactionNotes }}
+            </div>
+          </div>
+        </div>
+        <div
+          *ngIf="transaction.transactionType === 'Nhập kho'"
+          class="timeline-item right"
+          [ngClass]="{'show-details': transaction.showDetails}"
+          (click)="transaction.showDetails = !transaction.showDetails"
+        >
+          <div class="card">
+            <div class="card-header">
+              Mã phiếu: {{ transaction.transactionId }} -
+              <span *ngIf="!transaction.showDetails"><strong>{{ transaction.transactionType }}</strong> - </span>
+              {{ transaction.transactionDate }} bởi
+              <span class="fst-italic">{{ transaction.performedBy }}</span>
+            </div>
+            <div class="card-body" *ngIf="transaction.showDetails">
+              <h5 class="card-title">{{ transaction.transactionType }} theo {{ transaction.measureUnit }} - Số lượng: {{ transaction.quantity }}</h5>
+              <p class="card-text"><strong>{{ transaction.storeName }}</strong> - {{ transaction.storeAddress }}</p>
+            </div>
+            <div class="card-footer text-danger fst-italic" *ngIf="transaction.transactionNotes && transaction.showDetails">
+              {{ transaction.transactionNotes }}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>
+<mat-divider class="my-1"></mat-divider>

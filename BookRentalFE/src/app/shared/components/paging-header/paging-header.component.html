@@ -1,0 +1,9 @@
+<header *ngIf="totalCount && pageIndex && pageSize">
+    <span *ngIf="totalCount > 0">
+      Hiển thị
+      <strong class="fst-italic">{{ (pageIndex -1) * pageSize + 1 }} - {{ pageIndex * pageSize > totalCount ? totalCount : pageIndex * pageSize }}</strong>
+      của <strong>{{ totalCount }}</strong> kết quả
+    </span>
+    <span *ngIf="totalCount <= 0"><strong>Không tìm thấy sách bạn tìm</strong></span>
+  </header>
+  

@@ -1,0 +1,15 @@
+<mat-tab-group
+  [(selectedIndex)]="innerSelectedTabIndex"
+  (selectedTabChange)="onInnerTabChange($event)"
+>
+  <mat-tab label="Danh sách đơn hàng">
+    <ng-container *ngIf="innerSelectedTabIndex === 0">
+      <app-order-list></app-order-list>
+    </ng-container>
+  </mat-tab>
+  <mat-tab label="Phương thức giao hàng">
+    <ng-container *ngIf="innerSelectedTabIndex === 1">
+      <app-delivery-method-list></app-delivery-method-list>
+    </ng-container>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,22 @@
+<h2 class="text-center text-uppercase fw-bold" mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content class="tw-p-3">
+  <form [formGroup]="updatePublisherForm" class="p-4 w-100" (ngSubmit)="updatePublisher()">
+    <span class="mb-2">Mã NXB: {{ data.publisher.id }}</span>
+    <app-input-text
+      [formControl]="updatePublisherForm.controls['name']"
+      [label]="'Tên NXB'"
+    >
+    </app-input-text>
+    <app-input-text
+      [formControl]="updatePublisherForm.controls['address']"
+      [label]="'Địa chỉ'"
+    >
+    </app-input-text>
+    <div class="tw-flex tw-justify-end tw-gap-3">
+      <button mat-button color="warn" type="button" mat-dialog-close>Hủy</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="updatePublisherForm.invalid">
+        Lưu
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

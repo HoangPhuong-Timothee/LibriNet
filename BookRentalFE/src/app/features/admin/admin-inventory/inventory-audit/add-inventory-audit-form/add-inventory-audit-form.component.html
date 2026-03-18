@@ -1,0 +1,149 @@
+<div class="container mt-5 dialog-container">
+  <h2 class="text-uppercase text-center fw-bold mt-5 pt-2">{{ data.title }}</h2>
+  <div class="pt-2">
+    <form [formGroup]="addInventoryAuditForm" (ngSubmit)="submitForm()">
+      <div class="row">
+        <div class="col-6 form-group">
+          <label for="auditDate">Ngày kiểm kê: </label>
+          <input
+            type="date"
+            id="auditDate"
+            formControlName="auditDate"
+            class="form-control"
+            [ngClass]="addInventoryAuditForm.get('auditDate')?.touched ? addInventoryAuditForm.get('auditDate')?.invalid ? 'is-invalid' : 'is-valid' : null"
+          >
+          <span
+            class="text-danger mt-1"
+            *ngIf="addInventoryAuditForm.get('auditDate')?.touched && addInventoryAuditForm.get('auditDate')?.errors?.['required']"
+          >
+            * Vui lòng chọn Ngày tiến hành kiểm kê
+          </span>
+        </div>
+        <div class="col-6 form-group">
+          <label for="auditNotes">Nhân viên thực hiện: </label>
+          <input
+            type="text"
+            id="audittedBy"
+            formControlName="audittedBy"
+            class="form-control"
+            [ngClass]="addInventoryAuditForm.get('audittedBy')?.touched ? addInventoryAuditForm.get('audittedBy')?.invalid ? 'is-invalid' : 'is-valid' : null"
+          >
+          <span class="text-danger mt-1" *ngIf="addInventoryAuditForm.get('audittedBy')?.touched && addInventoryAuditForm.get('audittedBy')?.errors?.['required']">
+            * Vui lòng điền tên người người thực hiện kiểm kê
+          </span>
+        </div>
+        <div class="col-12 form-group my-2">
+          <label for="auditNotes">Ghi chú/ Lý do kiểm kê: </label>
+          <input
+            type="text"
+            id="auditNotes"
+            formControlName="auditNotes"
+            class="form-control"
+            [ngClass]="addInventoryAuditForm.get('auditNotes')?.touched ? addInventoryAuditForm.get('auditNotes')?.invalid ? 'is-invalid' : 'is-valid' : null"
+          >
+          <div class="text-danger mt-1" *ngIf="addInventoryAuditForm.get('auditNotes')?.touched">
+            <span *ngIf="addInventoryAuditForm.get('auditNotes')?.errors?.['maxLength']">
+              * Diễn giả kiểm kê không vượt quá 255 ký tự
+            </span>
+            <span *ngIf="addInventoryAuditForm.get('auditNotes')?.errors?.['required']">
+              * Vui lòng điền diễn giải cho việc kiểm kê
+            </span>
+          </div>
+        </div>
+      </div>
+      <mat-divider class="my-1"></mat-divider>
+      <div class="row my-3">
+        <div class="col-6 text-start">
+          <h2>Danh sách sách cần kiểm kê: </h2>
+        </div>
+        <div class="col-6 text-end">
+          <button class="btn btn-sm btn-outline-secondary" (click)="addItem()">Thêm sách</button>
+        </div>
+      </div>
+      <div class="table-container">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="text-uppercase bg-warning text-dark">
+              <th scope="col" *ngFor="let colHeader of headerColumns">{{ colHeader }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container formArrayName="items" *ngFor="let item of items.controls; let i = index">
+              <tr [formGroupName]="i">
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="bookTitle"
+                    [ngClass]="item.get('bookTitle')?.touched ? item.get('bookTitle')?.invalid ? 'is-invalid' : 'is-valid' : null"
+                  >
+                  <div class="text-danger mt-1" *ngIf="item.get('bookTitle')?.touched">
+                    <span *ngIf="item.get('bookTitle')?.errors?.['required']">
+                      * Vui lòng nhập Tiêu đề sách
+                    </span>
+                    <span *ngIf="item.get('bookTitle')?.errors?.['bookExists']">
+                      * Sách không tồn tại
+                    </span>
+                  </div>
+                  <div *ngIf="item.get('bookTitle')?.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="isbn"
+                    [ngClass]="item.get('isbn')?.touched ? item.get('isbn')?.invalid ? 'is-invalid' : 'is-valid' : null"
+                  >
+                  <div class="text-danger mt-1" *ngIf="item.get('isbn')?.touched">
+                    <span *ngIf="item.get('isbn')?.errors?.['required']">
+                      * Vui lòng nhập ISBN của sách
+                    </span>
+                    <span *ngIf="item.get('isbn')?.errors?.['isbnMatch']">
+                      * ISBN không trùng khớp
+                    </span>
+                  </div>
+                  <div *ngIf="item.get('isbn')?.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
+                </td>
+                <td>
+                  <select
+                    formControlName="bookStoreId"
+                    class="form-control"
+                    [ngClass]="item.get('bookStoreId')?.touched ? item.get('bookStoreId')?.invalid ? 'is-invalid' : 'is-valid' : null"
+                  >
+                    <option value=""><span class="text-danger">* Hiệu sách</span></option>
+                    <option *ngFor="let bookStore of bookStoresList" [value]="+bookStore.id">{{ bookStore.storeName }}</option>
+                  </select>
+                  <div class="text-danger mt-1" *ngIf="item.get('bookStoreId')?.touched">
+                    <span *ngIf="item.get('bookStoreId')?.errors?.['required']">
+                      * Vui lòng chọn Hiệu sách cần kiểm kê
+                    </span>
+                    <span *ngIf="item.get('bookStoreId')?.errors?.['bookExistInStore']">
+                      * Sách không tồn tại trong hiệu sách
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <button [disabled]="items.length === 1" class="btn btn-danger" (click)="removeFormGroup(i)">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container>
+              <tr>
+                <td colspan="7">
+                  <div class="row">
+                    <div class="col-12 text-end">
+                      <button class="me-1 btn btn-outline-danger py-1 px-3" mat-dialog-close="">Hủy</button>
+                      <button class="btn btn-primary py-1 px-3" [disabled]="addInventoryAuditForm.invalid" type="submit">Tạo</button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+</div>

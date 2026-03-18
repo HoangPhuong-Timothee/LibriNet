@@ -1,0 +1,7 @@
+<app-file-input
+  [columns]="columns"
+  [title]="data.title"
+  [serviceMethod]="importBooksFromFile.bind(this)"
+  (importSuccess)="handleSubmitSuccess($event)"
+>
+</app-file-input>

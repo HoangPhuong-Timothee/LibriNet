@@ -1,0 +1,13 @@
+<h2 class="text-center text-uppercase fw-bold" mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="updateAuthorForm" class="p-4 w-100" (ngSubmit)="updateAuthor()">
+    <span class="mb-2">Mã tác giả: {{ data.author.id }}</span>
+    <app-input-text [formControl]="updateAuthorForm.controls['name']" [label]="'Tên tác giả'"></app-input-text>
+    <div class="d-flex justify-content-end gap-1 mt-2">
+      <button mat-button color="warn" type="button" mat-dialog-close>Hủy</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="updateAuthorForm.invalid">
+        Cập nhật
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

@@ -1,0 +1,160 @@
+<h2 class="text-uppercase text-center fw-bold mt-5 pt-2">{{ data.title }}</h2>
+<div class="row">
+  <div class="col-6 text-start">
+    <button class="btn btn-sm btn-outline-secondary" (click)="addRow()">Thêm dòng</button>
+  </div>
+</div>
+<div class="pt-2">
+  <form (ngSubmit)="submitForm()">
+    <table class="table table-bordered">
+      <thead>
+        <tr class="text-uppercase bg-warning text-dark">
+          <th scope="col" *ngFor="let colHeader of headerColumns">{{ colHeader }}</th>
+        </tr>
+      </thead>
+      <tbody [formGroup]="exportForm">
+        <ng-container formArrayName="rows" *ngFor="let row of rows.controls; let i = index">
+          <tr [formGroupName]="i">
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="bookTitle"
+                [ngClass]="row.get('bookTitle')?.touched ? row.get('bookTitle')?.invalid ? 'is-invalid' : 'is-valid' : null"
+              >
+              <div class="text-danger mt-1" *ngIf="row.get('bookTitle')?.touched">
+                <span *ngIf="row.get('bookTitle')?.errors?.['required']">
+                  * Vui lòng nhập Tiêu đề sách
+                </span>
+                <span *ngIf="row.get('bookTitle')?.errors?.['bookExists']">
+                  * Sách không tồn tại
+                </span>
+              </div>
+              <div *ngIf="row.get('bookTitle')?.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="isbn"
+                [ngClass]="row.get('isbn')?.touched ? row.get('isbn')?.invalid ? 'is-invalid' : 'is-valid' : null"
+              >
+              <div class="text-danger mt-1" *ngIf="row.get('isbn')?.touched">
+                <span *ngIf="row.get('isbn')?.errors?.['required']">
+                  * Vui lòng nhập ISBN của sách
+                </span>
+                <span *ngIf="row.get('isbn')?.errors?.['isbnMatch']">
+                  * ISBN không trùng khớp
+                </span>
+              </div>
+              <div *ngIf="row.get('isbn')?.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
+            </td>
+            <td>
+              <select
+                formControlName="bookStoreId"
+                class="form-control"
+                [ngClass]="row.get('bookStoreId')?.touched ? row.get('bookStoreId')?.invalid ? 'is-invalid' : 'is-valid' : null"
+              >
+                <option value="">* Hiệu sách</option>
+                <option *ngFor="let bookStore of bookStoresList" [value]="bookStore.id">{{ bookStore.storeName }}</option>
+              </select>
+              <div class="text-danger mt-1" *ngIf="row.get('bookStoreId')?.touched">
+                <span *ngIf="row.get('bookStoreId')?.errors?.['bookExistInStore']">
+                  * Sách không tồn tại trong hiệu sách
+                </span>
+                <div *ngIf="row.get('bookStoreId')?.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
+                <span *ngIf="row.get('bookStoreId')?.errors?.['required']">
+                  * Vui lòng chọn Hiệu sách cần xuất kho
+                </span>
+              </div>
+            </td>
+            <td>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="quantity"
+                [ngClass]="row.get('quantity')?.touched ? row.get('quantity')?.invalid ? 'is-invalid' : 'is-valid' : null"
+              >
+              <div class="text-danger mt-1" *ngIf="row.get('quantity')?.touched">
+                <span *ngIf="row.get('quantity')?.errors?.['required']">
+                  * Vui lòng nhập Số lượng
+                </span>
+                <span *ngIf="row.get('quantity')?.errors?.['min']">
+                  * Số lượng xuất phải lớn hơn hoặc bằng 0
+                </span>
+                <span *ngIf="row.get('quantity')?.errors?.['validQuantity']">
+                  * Không đủ số lượng, hiệu sách chỉ còn {{ availableQuantity$ | async }} cuốn
+                </span>
+              </div>
+              <div *ngIf="row.get('bookTitle')?.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
+            </td>
+            <td>
+              <select
+                formControlName="unitOfMeasureId"
+                class="form-control"
+                [ngClass]="row.get('unitOfMeasureId')?.touched ? row.get('unitOfMeasureId')?.invalid ? 'is-invalid' : 'is-valid' : null"
+              >
+                <option value="">* Đơn vị</option>
+                <option *ngFor="let unit of measureUnitsList" [value]="unit.id">{{ unit.name }}</option>
+              </select>
+              <div class="text-danger mt-1" *ngIf="rows.get('unitOfMeasureId')?.touched">
+                <span *ngIf="row.get('unitOfMeasureId')?.errors?.['required']">
+                  * Vui lòng chọn đơn vị
+                </span>
+              </div>
+            </td>
+            <td>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="exportDate"
+                [ngClass]="row.get('exportDate')?.touched ? row.get('exportDate')?.invalid ? 'is-invalid' : 'is-valid' : null"
+              >
+              <div class="text-danger mt-1" *ngIf="row.get('exportDate')?.touched">
+                <span *ngIf="row.get('exportDate')?.errors?.['required']">
+                  * Vui lòng nhập Ngày xuất
+                </span>
+                <span *ngIf="row.get('exportDate')?.errors?.['futureDate']">
+                  * Ngày xuất không thể lớn hơn ngày hôm nay
+                </span>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="exportNotes"
+                style="padding-right: 5px;"
+              >
+              <div class="text-danger mt-1" *ngIf="row.get('exportNotes')?.touched">
+                <span *ngIf="row.get('exportNotes')?.errors?.['required']">
+                  * Vui lòng điền lý do/ghi chú xuất kho
+                </span>
+                <span *ngIf="row.get('exportNotes')?.errors?.['maxLength']">
+                  * Ghi chú xuất kho được quá 100 ký tự
+                </span>
+              </div>
+            </td>
+            <td>
+              <button [disabled]="rows.length === 1" class="btn btn-danger" (click)="removeFormGroup(i)">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-container>
+          <tr>
+            <td colspan="7">
+              <div class="row">
+                <div class="col-12 text-end">
+                  <button class="me-1 btn btn-outline-danger" mat-dialog-close="">Hủy</button>
+                  <button class="btn btn-primary" [disabled]="exportForm.invalid" type="submit">Thêm</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </form>
+</div>

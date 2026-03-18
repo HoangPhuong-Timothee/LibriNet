@@ -1,0 +1,10 @@
+.grid-template {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns layout */
+  gap: 1rem; /* Space between items */
+}
+
+.grid-item {
+  padding: 0.5rem; /* Adjust padding */
+}
+

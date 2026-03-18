@@ -1,0 +1,32 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-7">
+
+            <app-stepper #appStepper>
+
+                <cdk-step [label]="'Khách hàng'" [completed]="checkoutForm.get('userInfoForm')?.valid">
+                    <app-checkout-user-info [checkoutForm]="checkoutForm"></app-checkout-user-info>
+                </cdk-step>
+
+                <cdk-step [label]="'Dịch vụ'" [completed]="checkoutForm.get('deliveryForm')?.valid">
+                    <app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery>
+                </cdk-step>
+
+                <cdk-step [label]="'Giỏ sách'">
+                    <app-checkout-review [appStepper]="appStepper"></app-checkout-review>
+                </cdk-step>
+
+                <cdk-step [label]="'Thanh toán'" [completed]="checkoutForm.get('paymentForm')?.valid">
+                    <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
+                </cdk-step>
+
+            </app-stepper>
+
+        </div>
+        <div class="col-5">
+
+            <app-order-totals></app-order-totals>
+
+        </div>
+    </div>
+</div>

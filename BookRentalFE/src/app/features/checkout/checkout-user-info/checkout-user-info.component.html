@@ -1,0 +1,49 @@
+<div class="mt-4" *ngIf="checkoutForm" [formGroup]="checkoutForm">
+    <div class="d-flex justify-content-between align-items-center">
+        <h4>Thông tin khách hàng</h4>
+        <button
+            class="btn btn-secondary mb-3"
+            (click)="saveUserInfo()"
+            [disabled]="!checkoutForm.get('userInfoForm')?.valid || !checkoutForm.get('userInfoForm')?.dirty"
+        >
+            Lưu thông tin làm mặc định
+        </button>
+    </div>
+    <div class="row" formGroupName="userInfoForm">
+
+        <div class="form-group col-12">
+            <app-input-text [label]="'Họ và tên'" formControlName="fullName"></app-input-text>
+        </div>
+
+        <div class="form-group col-12">
+            <app-input-text [label]="'Địa chỉ'" formControlName="street"></app-input-text>
+        </div>
+
+        <div class="form-group col-6">
+            <app-input-text [label]="'Phường/Xã'" formControlName="ward"></app-input-text>
+        </div>
+
+        <div class="form-group col-6">
+            <app-input-text [label]="'Quận/Huyện'" formControlName="district"></app-input-text>
+        </div>
+
+        <div class="form-group col-6">
+            <app-input-text [label]="'Thành phố/Tỉnh'" formControlName="city"></app-input-text>
+        </div>
+
+        <div class="form-group col-6">
+          <app-input-text [label]="'Mã bưu chính'" formControlName="postalCode"></app-input-text>
+        </div>
+
+    </div>
+</div>
+<div class="d-flex justify-content-between flex-row mb-5">
+    <button class="btn btn-secondary" routerLink="/basket">
+        Quay lại giỏ sách
+        <i class="fa fa-angle-left"></i>
+    </button>
+    <button [disabled]="this.checkoutForm?.get('userInfoForm')?.invalid" class="btn btn-warning" cdkStepperNext>
+        <i class="fa fa-angle-right"></i>
+        Chọn dịch vụ
+    </button>
+</div>

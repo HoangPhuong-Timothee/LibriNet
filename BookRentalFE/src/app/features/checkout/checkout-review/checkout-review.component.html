@@ -1,0 +1,15 @@
+<div class="mt-4">
+    <h4>Chi tiết giỏ hàng</h4>
+    <app-basket-item [isBasket]="false"></app-basket-item>
+</div>
+<div class="d-flex justify-content-between flex-row mb-5">
+    <button class="btn btn-secondary" cdkStepperPrevious>
+        Quay lại
+        <i class="fa fa-angle-left"></i>
+    </button>
+    <button class="btn btn-warning" cdkStepperNext>
+      <!-- (click)="createPaymentIntent()" -->
+        <i class="fa fa-angle-right"></i>
+        Chọn phương thức thanh toán
+    </button>
+</div>

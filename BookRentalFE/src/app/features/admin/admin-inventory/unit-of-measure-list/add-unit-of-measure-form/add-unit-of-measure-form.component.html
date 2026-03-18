@@ -1,0 +1,46 @@
+<h2 class="text-center text-uppercase fw-bold pt-3" mat-dialog-title>{{ data.title }}</h2>
+<mat-divider class="my-1"></mat-divider>
+<mat-dialog-content>
+  <form
+    [formGroup]="addUnitOfMeasureForm"
+    class="p-4 w-100"
+    (ngSubmit)="addNewUnitOfMeasure()"
+  >
+    <app-input-text
+      [formControl]="addUnitOfMeasureForm.controls['name']"
+      [label]="'Tên đơn vị'"
+    >
+    </app-input-text>
+    <app-text-area
+      [formControl]="addUnitOfMeasureForm.controls['description']"
+      [label]="'Mô tả'"
+      [maxLength]="255"
+    >
+    </app-text-area>
+    <app-input-text
+      [formControl]="addUnitOfMeasureForm.controls['conversionRate']"
+      [label]="'Tỷ lệ quy đổi'"
+      type="number"
+    >
+    </app-input-text>
+    <select
+      [formControl]="addUnitOfMeasureForm.controls['mappingUnitId']"
+      class="form-control select-custom"
+      [ngClass]="addUnitOfMeasureForm.get('mappingUnitId')?.touched ? addUnitOfMeasureForm.get('mappingUnitId')?.invalid ? 'is-invalid' : 'is-valid' : null"
+    >
+      <option value="0" disabled selected hidden>* Chọn đơn vị quy đổi</option>
+      <option *ngFor="let unit of measureUnitsList" [value]="unit.id">{{ unit.name }}</option>
+    </select>
+    <div class="text-danger mt-1" *ngIf="addUnitOfMeasureForm.get('mappingUnitId')?.touched">
+      <span *ngIf="addUnitOfMeasureForm.get('mappingUnitId')?.errors?.['min']">
+        * Vui lòng chọn đơn vị quy đổi trong hệ thống
+      </span>
+    </div>
+    <div class="d-flex justify-content-end gap-1 mt-2">
+      <button mat-button color="warn" type="button" mat-dialog-close>Hủy</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="addUnitOfMeasureForm.invalid">
+        Thêm
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

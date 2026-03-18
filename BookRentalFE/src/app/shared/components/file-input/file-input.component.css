@@ -1,0 +1,20 @@
+.table-viewport {
+  min-height: 400px;
+  min-width: 820px;
+}
+
+.custom-file-input {
+  display: none;
+}
+
+.custom-file-label {
+  background-color: orange;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-file-text {
+  margin-left: 10px;
+}

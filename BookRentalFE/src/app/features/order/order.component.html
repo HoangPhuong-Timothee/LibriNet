@@ -1,0 +1,109 @@
+<ng-container *ngIf="!orders" class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body cart">
+          <div class="col-sm-12 empty-cart-cls text-center">
+            <img
+              src="https://cdni.iconscout.com/illustration/premium/thumb/girl-with-empty-shopping-basket-illustration-download-in-svg-png-gif-file-formats--stroller-cart-no-order-products-pack-e-commerce-illustrations-10018102.png?f=webp"
+              width="260"
+              height="260"
+              class="img-fluid mb-4 mr-3"
+            />
+            <h3><strong>Bạn chưa có đơn hàng nào</strong></h3>
+            <div class="d-flex justify-content-center">
+              <a
+              routerLink="/bookcase"
+              class="btn btn-warning cart-btn-transform m-3 fw-bold"
+              data-abc="true"
+            >
+              Xem tủ sách
+            </a>
+            <a
+              routerLink="/basket"
+              class="btn btn-dark text-warning cart-btn-transform m-3 fw-bold"
+              data-abc="true"
+            >
+              Xem giỏ sách
+            </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<div *ngIf="orders && orders.length >= 0" class="container mt-5">
+  <h2 class="fw-bold text-uppercase text-center">Danh sách đơn hàng</h2>
+  <div class="row">
+    <div class="col-4">
+      <h5 class="mt-5">Sắp xếp đơn hàng: </h5>
+      <select class="form-select mb-4" (change)="onSortSelected($event)">
+          <option
+            *ngFor="let sort of sortOptions"
+            [selected]="orderParams.sort === sort.value"
+            [value]="sort.value"
+          >
+              {{ sort.name }}
+          </option>
+      </select>
+    </div>
+    <div class="col-4">
+      <h5 class="mt-5">Trạng thái đơn: </h5>
+      <select class="form-select mb-4" (change)="onStatusSelected($event)">
+          <option
+            *ngFor="let status of statusOptions"
+            [selected]="orderParams.orderStatus === status.value"
+            [value]="status.value"
+          >
+              {{ status.name }}
+          </option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-12">
+          <table class="table table-hover" style="cursor: pointer;">
+              <thead class="thead-light">
+                  <tr>
+                      <th class="bg-warning">Mã đơn hàng</th>
+                      <th class="bg-warning">Mã giỏ hàng</th>
+                      <th class="bg-warning">Ngày tạo đơn</th>
+                      <th class="bg-warning">Tổng tiền</th>
+                      <th class="bg-warning">Phương thức giao hàng</th>
+                      <th class="bg-warning">Phương thức thanh toán</th>
+                      <th class="bg-warning">Trạng thái đơn hàng</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orders" routerLink="/order/{{ order.orderId }}">
+                  <th>#{{ order.orderId }}</th>
+                  <th>{{ order.paymentIntentId }}</th>
+                  <td>{{ order.orderDate }}</td>
+                  <td>{{ order.orderTotal | customCurrency: "VND" }}</td>
+                  <td>{{ order.deliveryShortName }}</td>
+                  <td>{{ order.paymentMethod }}</td>
+                  <td
+                    class="fw-bold"
+                    [ngClass]="order.status === 'Đang chờ xử lý' ? 'text-warning' : order.status === 'Đã giao hàng' ? 'text-success' : 'text-danger'"
+                  >
+                  {{ order.status }}
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+  <div class="d-flex justify-content-center" *ngIf="totalOrders > 0">
+
+    <app-paging-footer
+        [totalCount]="totalOrders"
+        [pageSize]="orderParams.pageSize"
+        [pageIndex]="orderParams.pageIndex"
+        (pageChanged)="onPageChanged($event)"
+    >
+    </app-paging-footer>
+
+</div>
+</div>
+

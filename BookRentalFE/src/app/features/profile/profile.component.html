@@ -1,0 +1,74 @@
+<div *ngIf="(authService.currentUser$ | async) as user" class="container">
+  <div class="text-center">
+    <img [src]="imagePreview || user.imageUrl" alt="User Avatar" class="avatar-img" (click)="fileInput.click()">
+    <input type="file" #fileInput (change)="onFileSelected($event)" class="d-none">
+
+    <div *ngIf="imagePreview" class="mt-2">
+      <button mat-button color="warn" (click)="cancelUploadImage()">Hủy</button>
+      <button mat-raised-button color="primary" (click)="uploadImage()">Cập nhật</button>
+    </div>
+  </div>
+  <mat-divider class="mt-2 mb-3"></mat-divider>
+  <form [formGroup]="userInfoForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+    </div>
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <label class="fw-bold mb-1" for="fullName">Họ và tên</label>
+        <input id="fullName" type="text" class="form-control" formControlName="fullName">
+      </div>
+      <div class="col-md-6 form-group">
+        <label class="fw-bold mb-1" for="userName">Tên người dùng</label>
+        <input id="userName" type="text" class="form-control" formControlName="userName">
+      </div>
+      <div class="col-md-4 form-group">
+        <label class="fw-bold mb-1" for="phoneNumber">Số điện thoại</label>
+        <input id="phoneNumber" type="text" class="form-control" formControlName="phoneNumber">
+      </div>
+      <div class="col-md-4 form-group">
+        <label class="fw-bold mb-1" for="gender">Giới tính</label>
+        <select id="gender" class="form-control" formControlName="gender">
+          <option value="male">Nam</option>
+          <option value="female">Nữ</option>
+        </select>
+      </div>
+      <div class="col-md-4 form-group">
+        <label class="fw-bold mb-1" for="dateOfBirth">Ngày sinh</label>
+        <input id="dateOfBirth" type="date" class="form-control" formControlName="dateOfBirth">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label class="fw-bold mb-1" for="street">Địa chỉ</label>
+        <input id="street" type="text" class="form-control" formControlName="street">
+      </div>
+        <div class="col-md-6 form-group">
+          <label class="fw-bold mb-1" for="ward">Phường/Xã</label>
+          <input id="ward" type="text" class="form-control" formControlName="ward">
+        </div>
+        <div class="col-md-6 form-group">
+          <label class="fw-bold mb-1" for="district">Quận/Huyện</label>
+          <input id="district" type="text" class="form-control" formControlName="district">
+        </div>
+        <div class="col-md-9 form-group">
+          <label class="fw-bold mb-1" for="city">Tỉnh/Thành phố</label>
+          <input id="city" type="text" class="form-control" formControlName="city">
+        </div>
+        <div class="col-md-3 form-group">
+          <label class="fw-bold mb-1" for="city">Mã bưu chính</label>
+          <input id="postalCode" type="text" class="form-control" formControlName="postalCode">
+        </div>
+    </div>
+    <div class="d-flex">
+      <button
+        type="button"
+        [ngClass]="isEditable ? 'btn btn-danger' : 'btn btn-primary'"
+        (click)="turnOnEditInfo()"
+        class="me-2"
+      >
+        {{ isEditable ? 'Hủy' : 'Chỉnh sửa thông tin' }}
+      </button>
+      <button *ngIf="isEditable" type="submit" class="btn btn-success" [disabled]="userInfoForm.invalid">Xác nhận</button>
+    </div>
+  </form>
+</div>

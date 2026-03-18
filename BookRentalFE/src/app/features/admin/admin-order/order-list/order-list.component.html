@@ -1,0 +1,29 @@
+<div class="mt-3">
+  <h1 class="tw-fs-2 tw-fw-semibold tw-mt-4 text-uppercase text-center">
+    Quản lý đơn hàng
+  </h1>
+  <div class="d-flex justify-content-around mt-3">
+    <div>
+      <button class="match-input-height me-1" mat-stroked-button (click)="openFilterDialog()">
+        <mat-icon>filter_list</mat-icon>
+        Lọc dữ liệu
+      </button>
+      <button mat-stroked-button color="warn" (click)="onReset()">
+        <i class="fa-solid fa-rotate-left"></i>
+      </button>
+    </div>
+    <div>
+    </div>
+  </div>
+</div>
+
+<app-custom-table
+  [columns]="columns"
+  [dataSource]="ordersList"
+  [actions]="actions"
+  [totalItems]="totalOrders"
+  [pageSize]="adminOrderParams.pageSize"
+  [pageSize]="adminOrderParams.pageSize"
+  (pageChange)="onPageChange($event)"
+>
+</app-custom-table>
